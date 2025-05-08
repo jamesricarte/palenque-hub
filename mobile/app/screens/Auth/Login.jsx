@@ -5,8 +5,8 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 const Login = () => {
   return (
     <SafeAreaProvider>
-      <SafeAreaView>
-        <Text>Login</Text>
+      <SafeAreaView className="justify-center items-center flex-1">
+        <Text className="text-2xl">Login Page</Text>
       </SafeAreaView>
     </SafeAreaProvider>
   );

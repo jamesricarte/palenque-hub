@@ -5,8 +5,8 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 const Register = () => {
   return (
     <SafeAreaProvider>
-      <SafeAreaView>
-        <Text>Register</Text>
+      <SafeAreaView className="justify-center items-center flex-1">
+        <Text className="text-2xl">Register page</Text>
       </SafeAreaView>
     </SafeAreaProvider>
   );
