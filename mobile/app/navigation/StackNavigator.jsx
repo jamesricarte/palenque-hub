@@ -16,7 +16,7 @@ const StackNavigator = () => {
       <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen name="HomePage" component={HomePage} />
+      <Stack.Screen name="Homepage" component={HomePage} />
     </Stack.Navigator>
   );
 };

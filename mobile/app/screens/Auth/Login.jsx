@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   TextInput,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Pressable,
   Image,
+  Alert,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import GoogleLogo from "../../assets/icons/google.png";
@@ -14,22 +15,33 @@ import { API_URL } from "@env";
 import axios from "axios";
 
 const Login = ({ navigation }) => {
-  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginMessage, setLoginMessage] = useState(null);
 
-  const handleLogin = () => {
-    axios
-      .post(`${API_URL}/api/users/login`, {
-        emailOrPhone: emailOrPhone,
+  const handleLogin = async () => {
+    if (!email.trim()) {
+      Alert.alert("Validation Error", "Email is required.");
+      return;
+    }
+
+    if (!password.trim()) {
+      Alert.alert("Validation Error", "Password is required.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${API_URL}/api/users/login`, {
+        email: email,
         password: password,
-      })
-      .then((response) => {
-        console.log(response.data);
-        navigation.navigate("HomePage");
-      })
-      .catch((error) => {
-        console.error(error);
       });
+      console.log(response.data);
+      setLoginMessage({ type: "success", message: response.data.message });
+      navigation.navigate("Homepage");
+    } catch (error) {
+      console.error(error.response.data);
+      setLoginMessage({ type: "error", message: error.response.data.message });
+    }
   };
 
   return (
@@ -48,20 +60,32 @@ const Login = ({ navigation }) => {
             <TextInput
               style={{ backgroundColor: "#EEEEEE" }}
               className="px-4 py-3 mb-6 text-base border border-gray-300 rounded-md"
-              placeholder="Email or Phone Number"
+              placeholder="Email Address"
               keyboardType="email-address"
-              value={emailOrPhone}
-              onChangeText={setEmailOrPhone}
+              value={email}
+              onChangeText={setEmail}
             />
 
             <TextInput
               style={{ backgroundColor: "#EEEEEE" }}
-              className="px-4 py-3 mb-5 text-base border border-gray-300 rounded-md"
+              className="px-4 py-3 mb-3 text-base border border-gray-300 rounded-md"
               placeholder="Password"
               secureTextEntry
               value={password}
               onChangeText={setPassword}
             />
+
+            {loginMessage && (
+              <Text
+                className={`${
+                  loginMessage.type === "success"
+                    ? "text-green-500"
+                    : "text-red-500 "
+                }`}
+              >
+                {loginMessage.message}
+              </Text>
+            )}
 
             <Pressable className="mb-8">
               <Text className="text-right text-red-400">Forgot Password?</Text>

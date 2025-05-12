@@ -6,8 +6,9 @@ import {
   Pressable,
   Image,
   StyleSheet,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import GoogleLogo from "../../assets/icons/google.png";
 import FacebookLogo from "../../assets/icons/facebook.png";
@@ -17,26 +18,41 @@ import axios from "axios";
 const Register = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [registerMessage, setRegisterMessage] = useState(null);
 
-  const handleRegister = () => {
-    axios
-      .post(`${API_URL}/api/users/register`, {
+  const handleRegister = async () => {
+    if (
+      !firstName.trim() ||
+      !lastName.trim() ||
+      !email.trim() ||
+      !password.trim() ||
+      !confirmPassword.trim()
+    ) {
+      Alert.alert("Validation Error", "All fields required!");
+      return;
+    }
+    try {
+      const response = await axios.post(`${API_URL}/api/users/register`, {
         firstName: firstName,
         lastName: lastName,
-        emailOrPhone: emailOrPhone,
+        email: email,
         password: password,
         confirmPassword: confirmPassword,
-      })
-      .then((response) => {
-        console.log(response.data);
-        navigation.navigate("Login");
-      })
-      .catch((error) => {
-        console.error(error);
       });
+
+      console.log(response.data);
+      setRegisterMessage({ type: "success", message: response.data.message });
+      navigation.navigate("Login");
+    } catch (error) {
+      console.error(error.response.data);
+      setRegisterMessage({
+        type: "error",
+        message: error.response.data.message,
+      });
+    }
   };
   return (
     <SafeAreaProvider>
@@ -51,18 +67,26 @@ const Register = ({ navigation }) => {
               </Text>
             </View>
 
-            <View style={styles.container}>
+            <View className="flex-row gap-3">
               <TextInput
-                style={styles.input}
+                style={{
+                  backgroundColor: "#EEEEEE",
+                  color: "#9E9E9E",
+                  borderColor: "#fff",
+                }}
                 placeholder="First Name"
-                className="px-4 mb-4"
+                className="flex-1 px-4 py-3 mb-6 text-base border border-gray-300 rounded-md"
                 value={firstName}
                 onChangeText={setFirstName}
               />
               <TextInput
-                style={styles.input}
+                style={{
+                  backgroundColor: "#EEEEEE",
+                  color: "#9E9E9E",
+                  borderColor: "#fff",
+                }}
                 placeholder="Last Name"
-                className="px-4 mb-4"
+                className="flex-1 px-4 py-3 mb-6 text-base border border-gray-300 rounded-md"
                 value={lastName}
                 onChangeText={setLastName}
               />
@@ -75,9 +99,9 @@ const Register = ({ navigation }) => {
                 borderColor: "#fff",
               }}
               className="px-4 py-3 mb-6 text-base border border-gray-300 rounded-md"
-              placeholder="Email or Phone Number"
-              value={emailOrPhone}
-              onChangeText={setEmailOrPhone}
+              placeholder="Email Address"
+              value={email}
+              onChangeText={setEmail}
             />
 
             <TextInput
@@ -105,6 +129,18 @@ const Register = ({ navigation }) => {
               value={confirmPassword}
               onChangeText={setConfirmPassword}
             />
+
+            {registerMessage && (
+              <Text
+                className={`${
+                  registerMessage.type === "success"
+                    ? "text-green-500"
+                    : "text-red-500 "
+                } mb-5`}
+              >
+                {registerMessage.message}
+              </Text>
+            )}
 
             <TouchableOpacity
               style={{ backgroundColor: "#FF5733" }}
@@ -159,19 +195,5 @@ const Register = ({ navigation }) => {
     </SafeAreaProvider>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#fff",
-    borderRadius: 5,
-    backgroundColor: "#EEEEEE",
-    color: "#9E9E9E",
-  },
-});
 
 export default Register;
