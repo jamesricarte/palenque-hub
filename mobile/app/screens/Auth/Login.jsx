@@ -13,6 +13,7 @@ import GoogleLogo from "../../assets/icons/google.png";
 import FacebookLogo from "../../assets/icons/facebook.png";
 import { API_URL } from "@env";
 import axios from "axios";
+import { ChevronLeftIcon } from "react-native-heroicons/outline";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -51,14 +52,22 @@ const Login = ({ navigation }) => {
           {/* Top content */}
           <View>
             <View className="mb-20" />
+            <View className="absolute top-5 z-10">
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <ChevronLeftIcon size={25} color="#9E9E9E" />
+              </TouchableOpacity>
+            </View>
             <View className="mb-8">
               <Text className="text-3xl font-bold">
-                Welcome Back! Log In to Palenque
+                Login your account
+              </Text>
+              <Text style={{ color: "#F16B44" }} className="text">
+                Your market access starts here.
               </Text>
             </View>
 
             <TextInput
-              style={{ backgroundColor: "#EEEEEE" }}
+              style={{ backgroundColor: "#EEEEEE", borderColor: "#fff" }}
               className="px-4 py-3 mb-6 text-base border border-gray-300 rounded-md"
               placeholder="Email Address"
               keyboardType="email-address"
@@ -67,7 +76,7 @@ const Login = ({ navigation }) => {
             />
 
             <TextInput
-              style={{ backgroundColor: "#EEEEEE" }}
+              style={{ backgroundColor: "#EEEEEE", borderColor: "#fff" }}
               className="px-4 py-3 mb-3 text-base border border-gray-300 rounded-md"
               placeholder="Password"
               secureTextEntry
@@ -107,17 +116,17 @@ const Login = ({ navigation }) => {
               <View className="flex-1 h-px bg-gray-300" />
             </View>
 
-            <TouchableOpacity className="flex-row px-4 py-3 mb-6 border border-gray-300 rounded-md">
+            <TouchableOpacity style={{ borderColor: "#F16B44" }} className="flex-row px-4 py-3 mb-6 border border-gray-300 rounded-md">
               <Image
                 source={GoogleLogo}
                 style={{ width: 20, height: 20, marginRight: 90 }}
               />
-              <Text style={{ color: "#FF5733" }} className="text-base">
+              <Text style={{ color: "#FF5733", borderColor: "#F16B44" }} className="text-base">
                 Continue with Google
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="flex-row px-4 py-3 border border-gray-300 rounded-md">
+            <TouchableOpacity style={{ borderColor: "#F16B44" }} className="flex-row px-4 py-3 border border-gray-300 rounded-md">
               <Image
                 source={FacebookLogo}
                 style={{ width: 20, height: 20, marginRight: 83 }}
