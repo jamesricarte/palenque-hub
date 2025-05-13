@@ -41,6 +41,7 @@ exports.register = async (req, res) => {
         hashedPassword,
       ]
     );
+    console.log("Registered succesfully!");
     res.status(200).json({ message: "Registered succesfully!" });
   } catch (error) {
     console.error(error.message);
@@ -80,6 +81,7 @@ exports.login = async (req, res) => {
       const passwordMatch = await bcrypt.compare(loginData.password, password);
 
       if (passwordMatch) {
+        console.log("Login successfully!");
         res.status(200).json({ message: "Login successfully!" });
       } else {
         res.status(400).json({ message: "Incorrect password." });
@@ -87,5 +89,6 @@ exports.login = async (req, res) => {
     }
   } catch (error) {
     console.error(error.message);
+    res.status(400).json({ message: error.message });
   }
 };

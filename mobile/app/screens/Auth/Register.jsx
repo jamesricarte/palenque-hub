@@ -15,14 +15,26 @@ import FacebookLogo from "../../assets/icons/facebook.png";
 import { API_URL } from "@env";
 import axios from "axios";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 
 const Register = ({ navigation }) => {
+  const customNavigation = useNavigation();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [registerMessage, setRegisterMessage] = useState(null);
+
+  const goToLogin = () => {
+    customNavigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: "WelcomeScreen" }, { name: "Login" }],
+      })
+    );
+  };
 
   const handleRegister = async () => {
     if (
@@ -61,16 +73,14 @@ const Register = ({ navigation }) => {
         <View className="justify-between flex-1">
           {/* Top content */}
           <View>
-            <View className="mb-20"/>
-            <View className="absolute top-5 z-10">
+            <View className="mb-20" />
+            <View className="absolute z-10 top-5">
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <ChevronLeftIcon size={25} color="#9E9E9E" />
               </TouchableOpacity>
             </View>
             <View className="mb-8">
-              <Text className="text-3xl font-bold">
-                Create your account
-              </Text>
+              <Text className="text-3xl font-bold">Create your account</Text>
               <Text style={{ color: "#F16B44" }} className="text">
                 Be part of something fresh.
               </Text>
@@ -167,7 +177,10 @@ const Register = ({ navigation }) => {
               <View className="flex-1 h-px bg-gray-300" />
             </View>
 
-            <TouchableOpacity style={{ borderColor: "#F16B44" }} className="flex-row px-4 py-3 mb-6 border border-gray-300 rounded-md">
+            <TouchableOpacity
+              style={{ borderColor: "#F16B44" }}
+              className="flex-row px-4 py-3 mb-6 border border-gray-300 rounded-md"
+            >
               <Image
                 source={GoogleLogo}
                 style={{ width: 20, height: 20, marginRight: 90 }}
@@ -177,7 +190,10 @@ const Register = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ borderColor: "#F16B44" }} className="flex-row px-4 py-3 border border-gray-300 rounded-md">
+            <TouchableOpacity
+              style={{ borderColor: "#F16B44" }}
+              className="flex-row px-4 py-3 border border-gray-300 rounded-md"
+            >
               <Image
                 source={FacebookLogo}
                 style={{ width: 20, height: 20, marginRight: 83 }}
@@ -191,10 +207,7 @@ const Register = ({ navigation }) => {
           <View className="items-center mt-10 mb-4">
             <Text>
               Already have an account?{" "}
-              <Pressable
-                onPress={() => navigation.navigate("Login")}
-                className="mb-2"
-              >
+              <Pressable onPress={goToLogin} className="mb-2">
                 <Text style={{ color: "#FF5733" }}>Login</Text>
               </Pressable>
             </Text>

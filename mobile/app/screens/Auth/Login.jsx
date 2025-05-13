@@ -14,36 +14,47 @@ import FacebookLogo from "../../assets/icons/facebook.png";
 import { API_URL } from "@env";
 import axios from "axios";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 
 const Login = ({ navigation }) => {
+  const customNavigation = useNavigation();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginMessage, setLoginMessage] = useState(null);
 
+  const navigateToHomeScreen = () => {
+    customNavigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "Homepage" }],
+      })
+    );
+  };
+
   const handleLogin = async () => {
-    // if (!email.trim()) {
-    //   Alert.alert("Validation Error", "Email is required.");
-    //   return;
-    // }
+    if (!email.trim()) {
+      Alert.alert("Validation Error", "Email is required.");
+      return;
+    }
 
-    // if (!password.trim()) {
-    //   Alert.alert("Validation Error", "Password is required.");
-    //   return;
-    // }
+    if (!password.trim()) {
+      Alert.alert("Validation Error", "Password is required.");
+      return;
+    }
 
-    // try {
-    //   const response = await axios.post(`${API_URL}/api/users/login`, {
-    //     email: email,
-    //     password: password,
-    //   });
-    //   console.log(response.data);
-    //   setLoginMessage({ type: "success", message: response.data.message });
-    //   navigation.navigate("Homepage");
-    // } catch (error) {
-    //   console.error(error.response.data);
-    //   setLoginMessage({ type: "error", message: error.response.data.message });
-    // }
-    navigation.navigate("Homepage");
+    try {
+      const response = await axios.post(`${API_URL}/api/users/login`, {
+        email: email,
+        password: password,
+      });
+      console.log(response.data);
+      setLoginMessage({ type: "success", message: response.data.message });
+      navigateToHomeScreen();
+    } catch (error) {
+      console.error(error.response.data);
+      setLoginMessage({ type: "error", message: error.response.data.message });
+    }
   };
 
   return (
@@ -53,15 +64,13 @@ const Login = ({ navigation }) => {
           {/* Top content */}
           <View>
             <View className="mb-20" />
-            <View className="absolute top-5 z-10">
+            <View className="absolute z-10 top-5">
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <ChevronLeftIcon size={25} color="#9E9E9E" />
               </TouchableOpacity>
             </View>
             <View className="mb-8">
-              <Text className="text-3xl font-bold">
-                Login your account
-              </Text>
+              <Text className="text-3xl font-bold">Login your account</Text>
               <Text style={{ color: "#F16B44" }} className="text">
                 Your market access starts here.
               </Text>
@@ -117,17 +126,26 @@ const Login = ({ navigation }) => {
               <View className="flex-1 h-px bg-gray-300" />
             </View>
 
-            <TouchableOpacity style={{ borderColor: "#F16B44" }} className="flex-row px-4 py-3 mb-6 border border-gray-300 rounded-md">
+            <TouchableOpacity
+              style={{ borderColor: "#F16B44" }}
+              className="flex-row px-4 py-3 mb-6 border border-gray-300 rounded-md"
+            >
               <Image
                 source={GoogleLogo}
                 style={{ width: 20, height: 20, marginRight: 90 }}
               />
-              <Text style={{ color: "#FF5733", borderColor: "#F16B44" }} className="text-base">
+              <Text
+                style={{ color: "#FF5733", borderColor: "#F16B44" }}
+                className="text-base"
+              >
                 Continue with Google
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ borderColor: "#F16B44" }} className="flex-row px-4 py-3 border border-gray-300 rounded-md">
+            <TouchableOpacity
+              style={{ borderColor: "#F16B44" }}
+              className="flex-row px-4 py-3 border border-gray-300 rounded-md"
+            >
               <Image
                 source={FacebookLogo}
                 style={{ width: 20, height: 20, marginRight: 83 }}
