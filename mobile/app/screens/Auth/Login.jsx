@@ -21,28 +21,29 @@ const Login = ({ navigation }) => {
   const [loginMessage, setLoginMessage] = useState(null);
 
   const handleLogin = async () => {
-    if (!email.trim()) {
-      Alert.alert("Validation Error", "Email is required.");
-      return;
-    }
+    // if (!email.trim()) {
+    //   Alert.alert("Validation Error", "Email is required.");
+    //   return;
+    // }
 
-    if (!password.trim()) {
-      Alert.alert("Validation Error", "Password is required.");
-      return;
-    }
+    // if (!password.trim()) {
+    //   Alert.alert("Validation Error", "Password is required.");
+    //   return;
+    // }
 
-    try {
-      const response = await axios.post(`${API_URL}/api/users/login`, {
-        email: email,
-        password: password,
-      });
-      console.log(response.data);
-      setLoginMessage({ type: "success", message: response.data.message });
-      navigation.navigate("Homepage");
-    } catch (error) {
-      console.error(error.response.data);
-      setLoginMessage({ type: "error", message: error.response.data.message });
-    }
+    // try {
+    //   const response = await axios.post(`${API_URL}/api/users/login`, {
+    //     email: email,
+    //     password: password,
+    //   });
+    //   console.log(response.data);
+    //   setLoginMessage({ type: "success", message: response.data.message });
+    //   navigation.navigate("Homepage");
+    // } catch (error) {
+    //   console.error(error.response.data);
+    //   setLoginMessage({ type: "error", message: error.response.data.message });
+    // }
+    navigation.navigate("Homepage");
   };
 
   return (
