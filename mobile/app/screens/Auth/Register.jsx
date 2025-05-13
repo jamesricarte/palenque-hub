@@ -14,6 +14,7 @@ import GoogleLogo from "../../assets/icons/google.png";
 import FacebookLogo from "../../assets/icons/facebook.png";
 import { API_URL } from "@env";
 import axios from "axios";
+import { ChevronLeftIcon } from "react-native-heroicons/outline";
 
 const Register = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
@@ -60,10 +61,18 @@ const Register = ({ navigation }) => {
         <View className="justify-between flex-1">
           {/* Top content */}
           <View>
-            <View className="mb-20" />
+            <View className="mb-20"/>
+            <View className="absolute top-5 z-10">
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <ChevronLeftIcon size={25} color="#9E9E9E" />
+              </TouchableOpacity>
+            </View>
             <View className="mb-8">
               <Text className="text-3xl font-bold">
-                Join Palenque! Register to Our App Today
+                Create your account
+              </Text>
+              <Text style={{ color: "#F16B44" }} className="text">
+                Be part of something fresh.
               </Text>
             </View>
 
@@ -158,7 +167,7 @@ const Register = ({ navigation }) => {
               <View className="flex-1 h-px bg-gray-300" />
             </View>
 
-            <TouchableOpacity className="flex-row px-4 py-3 mb-6 border border-gray-300 rounded-md">
+            <TouchableOpacity style={{ borderColor: "#F16B44" }} className="flex-row px-4 py-3 mb-6 border border-gray-300 rounded-md">
               <Image
                 source={GoogleLogo}
                 style={{ width: 20, height: 20, marginRight: 90 }}
@@ -168,7 +177,7 @@ const Register = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="flex-row px-4 py-3 border border-gray-300 rounded-md">
+            <TouchableOpacity style={{ borderColor: "#F16B44" }} className="flex-row px-4 py-3 border border-gray-300 rounded-md">
               <Image
                 source={FacebookLogo}
                 style={{ width: 20, height: 20, marginRight: 83 }}
