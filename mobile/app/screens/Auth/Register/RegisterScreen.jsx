@@ -5,19 +5,18 @@ import {
   TouchableOpacity,
   Pressable,
   Image,
-  StyleSheet,
   Alert,
 } from "react-native";
 import { useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import GoogleLogo from "../../assets/icons/google.png";
-import FacebookLogo from "../../assets/icons/facebook.png";
+import GoogleLogo from "../../../assets/icons/google.png";
+import FacebookLogo from "../../../assets/icons/facebook.png";
 import { API_URL } from "@env";
 import axios from "axios";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 
-const Register = ({ navigation }) => {
+const RegisterScreen = ({ navigation }) => {
   const customNavigation = useNavigation();
 
   const [firstName, setFirstName] = useState("");
@@ -218,4 +217,4 @@ const Register = ({ navigation }) => {
   );
 };
 
-export default Register;
+export default RegisterScreen;

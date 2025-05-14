@@ -9,14 +9,14 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import GoogleLogo from "../../assets/icons/google.png";
-import FacebookLogo from "../../assets/icons/facebook.png";
+import GoogleLogo from "../../../assets/icons/google.png";
+import FacebookLogo from "../../../assets/icons/facebook.png";
 import { API_URL } from "@env";
 import axios from "axios";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 
-const Login = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   const customNavigation = useNavigation();
 
   const [email, setEmail] = useState("");
@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
     customNavigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: "Homepage" }],
+        routes: [{ name: "Dashboard" }],
       })
     );
   };
@@ -173,4 +173,4 @@ const Login = ({ navigation }) => {
   );
 };
 
-export default Login;
+export default LoginScreen;
