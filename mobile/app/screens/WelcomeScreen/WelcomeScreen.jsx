@@ -1,14 +1,7 @@
-import {
-  Text,
-  View,
-  Pressable,
-  TouchableOpacity,
-  ImageBackground,
-  Image,
-} from "react-native";
+import { View, TouchableOpacity, ImageBackground, Image } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
+import CustomText from "../../components/CustomText";
 
 const WelcomeScreen = ({ navigation }) => {
   return (
@@ -27,9 +20,9 @@ const WelcomeScreen = ({ navigation }) => {
                 source={require("../../assets/logos/logo.png")}
                 style={{ width: 240, height: 60 }}
               />
-              <Text style={{ color: "#9E9E9E", fontSize: 18 }}>
+              <CustomText style={{ color: "#9E9E9E", fontSize: 18 }}>
                 From Market to Your Doorstep
-              </Text>
+              </CustomText>
             </View>
 
             {/* Login Button */}
@@ -42,16 +35,16 @@ const WelcomeScreen = ({ navigation }) => {
               }}
               onPress={() => navigation.navigate("Login")}
             >
-              <Text
+              <CustomText
                 style={{
                   color: "white",
                   textAlign: "center",
-                  fontWeight: "bold",
                   fontSize: 16,
                 }}
+                className="font-semibold"
               >
                 Login
-              </Text>
+              </CustomText>
             </TouchableOpacity>
 
             {/* Register Button */}
@@ -65,16 +58,16 @@ const WelcomeScreen = ({ navigation }) => {
               }}
               onPress={() => navigation.navigate("Register")}
             >
-              <Text
+              <CustomText
                 style={{
                   color: "#FF5733",
                   textAlign: "center",
-                  fontWeight: "bold",
                   fontSize: 16,
                 }}
+                className="font-semibold"
               >
                 Register
-              </Text>
+              </CustomText>
             </TouchableOpacity>
 
             {/* Social Icons */}
@@ -98,11 +91,11 @@ const WelcomeScreen = ({ navigation }) => {
                 style={{ marginHorizontal: 10 }}
               />
             </View>
-            <Text
+            <CustomText
               style={{ textAlign: "center", color: "#9E9E9E", fontSize: 12 }}
             >
               Connect with us
-            </Text>
+            </CustomText>
           </View>
         </ImageBackground>
       </SafeAreaView>

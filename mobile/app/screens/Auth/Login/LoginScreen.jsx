@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   View,
   TextInput,
-  Text,
   TouchableOpacity,
   Pressable,
   Image,
@@ -15,6 +14,8 @@ import { API_URL } from "@env";
 import axios from "axios";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { CommonActions, useNavigation } from "@react-navigation/native";
+import CustomText from "../../../components/CustomText";
+import { getTextStyle } from "../../../utils/getTextStyle";
 
 const LoginScreen = ({ navigation }) => {
   const customNavigation = useNavigation();
@@ -65,19 +66,27 @@ const LoginScreen = ({ navigation }) => {
           <View>
             <View className="mb-20" />
             <View className="absolute z-10 top-5">
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <ChevronLeftIcon size={25} color="#9E9E9E" />
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                className="bg-[#F5F5F5] rounded-full p-1.5"
+              >
+                <ChevronLeftIcon size={20} strokeWidth={3} color="#9E9E9E" />
               </TouchableOpacity>
             </View>
             <View className="mb-8">
-              <Text className="text-3xl font-bold">Login your account</Text>
-              <Text style={{ color: "#F16B44" }} className="text">
+              <CustomText className="text-3xl font-bold">
+                Login your account
+              </CustomText>
+              <CustomText style={{ color: "#F16B44" }}>
                 Your market access starts here.
-              </Text>
+              </CustomText>
             </View>
 
             <TextInput
-              style={{ backgroundColor: "#EEEEEE", borderColor: "#fff" }}
+              style={getTextStyle({
+                backgroundColor: "#EEEEEE",
+                borderColor: "#fff",
+              })}
               className="px-4 py-3 mb-6 text-base border border-gray-300 rounded-md"
               placeholder="Email Address"
               keyboardType="email-address"
@@ -86,7 +95,10 @@ const LoginScreen = ({ navigation }) => {
             />
 
             <TextInput
-              style={{ backgroundColor: "#EEEEEE", borderColor: "#fff" }}
+              style={getTextStyle({
+                backgroundColor: "#EEEEEE",
+                borderColor: "#fff",
+              })}
               className="px-4 py-3 mb-3 text-base border border-gray-300 rounded-md"
               placeholder="Password"
               secureTextEntry
@@ -95,7 +107,7 @@ const LoginScreen = ({ navigation }) => {
             />
 
             {loginMessage && (
-              <Text
+              <CustomText
                 className={`${
                   loginMessage.type === "success"
                     ? "text-green-500"
@@ -103,11 +115,13 @@ const LoginScreen = ({ navigation }) => {
                 }`}
               >
                 {loginMessage.message}
-              </Text>
+              </CustomText>
             )}
 
             <Pressable className="mb-8">
-              <Text className="text-right text-red-400">Forgot Password?</Text>
+              <CustomText className="text-right text-red-400">
+                Forgot Password?
+              </CustomText>
             </Pressable>
 
             <TouchableOpacity
@@ -115,14 +129,16 @@ const LoginScreen = ({ navigation }) => {
               className="py-4 mb-8 rounded-md"
               onPress={handleLogin}
             >
-              <Text className="text-base font-bold text-center text-white">
+              <CustomText className="text-base font-bold text-center text-white">
                 Login
-              </Text>
+              </CustomText>
             </TouchableOpacity>
 
             <View className="flex-row items-center mb-8">
               <View className="flex-1 h-px bg-gray-300" />
-              <Text className="mx-4 text-gray-500">Or login with</Text>
+              <CustomText className="mx-4 text-gray-500">
+                Or login with
+              </CustomText>
               <View className="flex-1 h-px bg-gray-300" />
             </View>
 
@@ -134,12 +150,12 @@ const LoginScreen = ({ navigation }) => {
                 source={GoogleLogo}
                 style={{ width: 20, height: 20, marginRight: 90 }}
               />
-              <Text
+              <CustomText
                 style={{ color: "#FF5733", borderColor: "#F16B44" }}
                 className="text-base"
               >
                 Continue with Google
-              </Text>
+              </CustomText>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -150,22 +166,20 @@ const LoginScreen = ({ navigation }) => {
                 source={FacebookLogo}
                 style={{ width: 20, height: 20, marginRight: 83 }}
               />
-              <Text style={{ color: "#FF5733" }} className="text-base">
+              <CustomText style={{ color: "#FF5733" }} className="text-base">
                 Continue with Facebook
-              </Text>
+              </CustomText>
             </TouchableOpacity>
           </View>
 
-          <View className="items-center mt-10 mb-4">
-            <Text>
-              Don’t have an account?{" "}
-              <Pressable
-                onPress={() => navigation.navigate("Register")}
-                className="mb-2"
-              >
-                <Text style={{ color: "#FF5733" }}>Register</Text>
-              </Pressable>
-            </Text>
+          <View className="flex-row justify-center mt-10 mb-4 ">
+            <CustomText>Don’t have an account? </CustomText>
+            <Pressable
+              onPress={() => navigation.navigate("Register")}
+              className="p-0 mb-0"
+            >
+              <CustomText style={{ color: "#FF5733" }}>Register</CustomText>
+            </Pressable>
           </View>
         </View>
       </SafeAreaView>

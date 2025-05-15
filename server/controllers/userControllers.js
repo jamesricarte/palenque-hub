@@ -18,16 +18,16 @@ exports.register = async (req, res) => {
       .json({ message: "Your confirmation password does not match." });
   }
 
-  // if (
-  //   !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-  //     registersData.password
-  //   )
-  // ) {
-  //   return res.status(400).json({
-  //     message:
-  //       "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.",
-  //   });
-  // }
+  if (
+    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+      registersData.password
+    )
+  ) {
+    return res.status(400).json({
+      message:
+        "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.",
+    });
+  }
 
   try {
     const hashedPassword = await bcrypt.hash(registersData.password, 10);
@@ -41,7 +41,7 @@ exports.register = async (req, res) => {
         hashedPassword,
       ]
     );
-    console.log("Registered succesfully!");
+    console.log(`${registersData.email} was registered succesfully!`);
     res.status(200).json({ message: "Registered succesfully!" });
   } catch (error) {
     console.error(error.message);
@@ -72,16 +72,17 @@ exports.login = async (req, res) => {
       res.status(400).json({ message: "Invalid credentials." });
     } else {
       const [rows] = await db.execute(
-        "SELECT password FROM users WHERE email = ?",
+        "SELECT password, email FROM users WHERE email = ?",
         [loginData.email]
       );
 
       const password = rows[0].password;
+      const email = rows[0].email;
 
       const passwordMatch = await bcrypt.compare(loginData.password, password);
 
       if (passwordMatch) {
-        console.log("Login successfully!");
+        console.log(`${email} was logged in successfully!`);
         res.status(200).json({ message: "Login successfully!" });
       } else {
         res.status(400).json({ message: "Incorrect password." });

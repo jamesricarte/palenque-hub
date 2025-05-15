@@ -24,6 +24,9 @@ const DashboardScreen = () => {
         headerShown: false,
         tabBarActiveTintColor: activeTintColor,
         tabBarInactiveTintColor: inActiveTintColor,
+        tabBarLabelStyle: {
+          fontFamily: "Poppins",
+        },
       }}
     >
       <Tab.Screen
