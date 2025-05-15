@@ -10,12 +10,13 @@ import HomeTabScreen from "./tabs/HomeTabScreen";
 import LiveStreamingTabScreen from "./tabs/LiveStreamingTabScreen";
 import ChatTabScreen from "./tabs/ChatTabScreen";
 import AccountTabScreen from "./tabs/AccountTabScreen";
+import { colors } from "../../styles/colors";
 
 const Tab = createBottomTabNavigator();
 
 const DashboardScreen = () => {
-  const activeTintColor = "#FF5733";
-  const inActiveTintColor = "#aaa";
+  const activeTintColor = colors.primary;
+  const inActiveTintColor = colors.darkGrey;
 
   return (
     <Tab.Navigator

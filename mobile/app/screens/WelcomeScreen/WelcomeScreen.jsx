@@ -1,105 +1,75 @@
-import { View, TouchableOpacity, ImageBackground, Image } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { View, ImageBackground, Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import CustomText from "../../components/CustomText";
+import Button from "../../components/Button";
+import { StatusBar } from "expo-status-bar";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 const WelcomeScreen = ({ navigation }) => {
+  useFocusEffect(
+    useCallback(() => {
+      return () => {};
+    }, [])
+  );
+
   return (
-    <SafeAreaProvider>
-      <SafeAreaView className="justify-center flex-1">
+    <>
+      <StatusBar style="light" />
+      <View className="justify-center flex-1">
         <ImageBackground
-          source={require("../../assets/backgrounds/market-bg-orig.png")} // Your gradient-included image
-          style={{ flex: 1, justifyContent: "flex-end" }}
-          resizeMode="cover"
+          source={require("../../assets/backgrounds/market-bg-orig.png")}
+          className="justify-end flex-1 object-cover"
         >
-          {/* Content container */}
-          <View style={{ paddingHorizontal: 24, paddingBottom: 40 }}>
-            {/* Logo and Subtitle */}
-            <View style={{ alignItems: "center", marginBottom: 24 }}>
+          <View className="px-6 pb-10">
+            <View className="items-center mb-6">
               <Image
                 source={require("../../assets/logos/logo.png")}
-                style={{ width: 240, height: 60 }}
+                className="w-[240px] h-16"
               />
-              <CustomText style={{ color: "#9E9E9E", fontSize: 18 }}>
+              <CustomText className="text-lg text-dark-grey">
                 From Market to Your Doorstep
               </CustomText>
             </View>
 
-            {/* Login Button */}
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#FF5733",
-                paddingVertical: 14,
-                borderRadius: 8,
-                marginBottom: 12,
-              }}
+            <Button
+              variant="primary"
+              buttonClassName="mb-3"
               onPress={() => navigation.navigate("Login")}
             >
-              <CustomText
-                style={{
-                  color: "white",
-                  textAlign: "center",
-                  fontSize: 16,
-                }}
-                className="font-semibold"
-              >
-                Login
-              </CustomText>
-            </TouchableOpacity>
+              Login
+            </Button>
 
-            {/* Register Button */}
-            <TouchableOpacity
-              style={{
-                borderWidth: 1,
-                borderColor: "#FF5733",
-                paddingVertical: 14,
-                borderRadius: 8,
-                marginBottom: 24,
-              }}
+            <Button
+              variant="secondary"
+              buttonClassName="mb-6"
               onPress={() => navigation.navigate("Register")}
             >
-              <CustomText
-                style={{
-                  color: "#FF5733",
-                  textAlign: "center",
-                  fontSize: 16,
-                }}
-                className="font-semibold"
-              >
-                Register
-              </CustomText>
-            </TouchableOpacity>
+              Register
+            </Button>
 
             {/* Social Icons */}
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                marginBottom: 8,
-              }}
-            >
+            <View className="flex-row justify-center mb-2">
               <FontAwesome
                 name="facebook-square"
                 size={24}
                 color="#9E9E9E"
-                style={{ marginHorizontal: 10 }}
+                className="mx-2"
               />
               <FontAwesome
                 name="instagram"
                 size={24}
                 color="#9E9E9E"
-                style={{ marginHorizontal: 10 }}
+                className="mx-2"
               />
             </View>
-            <CustomText
-              style={{ textAlign: "center", color: "#9E9E9E", fontSize: 12 }}
-            >
+            <CustomText className="text-sm text-center text-dark-grey">
               Connect with us
             </CustomText>
           </View>
         </ImageBackground>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      </View>
+    </>
   );
 };
 

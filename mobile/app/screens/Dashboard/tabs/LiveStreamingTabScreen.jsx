@@ -1,13 +1,28 @@
-import { View, Text } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
+import { View, Text, StatusBar } from "react-native";
 
 const LiveStreamingTabScreen = () => {
+  useFocusEffect(
+    useCallback(() => {
+      setTimeout(() => {
+        StatusBar.setBarStyle("dark-content");
+      }, 10);
+      return () => {};
+    }, [])
+  );
+
   return (
-    <SafeAreaProvider>
-      <SafeAreaView>
+    <>
+      <StatusBar
+        barStyle="light-content"
+        translucent
+        backgroundColor="transparent"
+      />
+      <View className="p-6 pt-12">
         <Text>LiveStreamingTabScreen</Text>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      </View>
+    </>
   );
 };
 

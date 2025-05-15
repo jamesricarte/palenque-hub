@@ -1,8 +1,22 @@
-import { CommonActions, useNavigation } from "@react-navigation/native";
-import { View, Text, TouchableOpacity } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import {
+  CommonActions,
+  useFocusEffect,
+  useNavigation,
+} from "@react-navigation/native";
+import { View, TouchableOpacity, StatusBar } from "react-native";
+import CustomText from "../../../components/CustomText";
+import { useCallback } from "react";
 
 const AccountTabScreen = ({ navigation }) => {
+  useFocusEffect(
+    useCallback(() => {
+      setTimeout(() => {
+        StatusBar.setBarStyle("dark-content");
+      }, 10);
+      return () => {};
+    }, [])
+  );
+
   const customNavigation = useNavigation();
 
   const logout = () => {
@@ -15,10 +29,17 @@ const AccountTabScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView className="justify-between flex-1 px-6 py-4 bg-white">
+    <>
+      <StatusBar
+        barStyle="light-content"
+        translucent
+        backgroundColor="transparent"
+      />
+      <View className="justify-between flex-1 px-6 py-4 bg-white pt-14">
         <View>
-          <Text className="mb-4 text-2xl font-bold">Account Settings</Text>
+          <CustomText className="mb-4 text-2xl font-bold">
+            Account Settings
+          </CustomText>
         </View>
 
         <TouchableOpacity
@@ -26,12 +47,12 @@ const AccountTabScreen = ({ navigation }) => {
           className="p-3 rounded-md"
           onPress={logout} // or your logout logic
         >
-          <Text className="text-base font-bold text-center text-white">
+          <CustomText className="text-base font-bold text-center text-white">
             Logout
-          </Text>
+          </CustomText>
         </TouchableOpacity>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      </View>
+    </>
   );
 };
 

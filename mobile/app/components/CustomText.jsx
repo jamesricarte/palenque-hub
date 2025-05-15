@@ -13,7 +13,11 @@ export default function CustomText({ className = "", children, ...props }) {
   }
 
   return (
-    <Text className={`${fontClass} ${newClassName}`} {...props}>
+    <Text
+      className={`${fontClass} ${newClassName}`}
+      {...props}
+      includeFontPadding={false}
+    >
       {children}
     </Text>
   );

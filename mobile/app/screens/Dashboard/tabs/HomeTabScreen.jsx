@@ -1,18 +1,11 @@
-import {
-  View,
-  TouchableOpacity,
-  TextInput,
-  Image,
-  ScrollView,
-} from "react-native";
-
-import { BellIcon, ShoppingBagIcon } from "react-native-heroicons/outline";
-
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { getTextStyle } from "../../../utils/getTextStyle";
+import { View, TouchableOpacity, Image, ScrollView } from "react-native";
 import CustomText from "../../../components/CustomText";
+import TopNav from "../../../components/TopNav";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
+import { StatusBar } from "react-native";
 
-const categories = [
+export const categories = [
   { label: "Meat", image: require("../../../assets/categories/meat.jpg") },
   {
     label: "Poultry",
@@ -28,68 +21,69 @@ const categories = [
   },
 ];
 
-const vendors = Array(6).fill({
+export const vendors = Array(6).fill({
   name: "Vendor Shop Name",
   location: "Location",
 });
 
 const HomeTabScreen = () => {
+  useFocusEffect(
+    useCallback(() => {
+      setTimeout(() => {
+        StatusBar.setBarStyle("light-content");
+      }, 10);
+      return () => {};
+    }, [])
+  );
+
   return (
-    <SafeAreaProvider>
-      <SafeAreaView className="items-center justify-center flex-1">
-        <View className="flex-1 bg-white">
-          {/* Header */}
-          <View className="flex-row items-center p-4 bg-[#F16B44] rounded-b-3xl">
-            <TextInput
-              style={getTextStyle()}
-              placeholder="Search for products"
-              className="flex-1 px-4 py-2 mr-3 bg-white rounded-lg"
-            />
-            <TouchableOpacity className="mr-2">
-              <ShoppingBagIcon
-                size={24}
-                color="white"
-                className="p-1 bg-gray-200 rounded-full"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <BellIcon
-                size={24}
-                color="white"
-                className="p-1 bg-gray-200 rounded-full"
-              />
-            </TouchableOpacity>
-          </View>
+    <>
+      <StatusBar
+        barStyle="light-content"
+        translucent
+        backgroundColor="transparent"
+      />
 
-          {/* Categories */}
-          <View className="flex-row justify-around px-4 mt-4">
-            {categories.map((item, index) => (
-              <View key={index} className="items-center">
-                <Image source={item.image} className="rounded-full w-14 h-14" />
-                <CustomText className="mt-1 text-sm">{item.label}</CustomText>
+      <View className="items-center justify-center flex-1">
+        <TopNav />
+        <View className="flex-1 bg-primary-color">
+          <View className="flex-1 bg-white rounded-t-3xl">
+            <ScrollView>
+              {/* Categories */}
+              <View className="flex-row justify-between gap-3 mx-6 mt-8 mb-1">
+                {categories.map((item, index) => (
+                  <TouchableOpacity key={index} className="items-center">
+                    <Image
+                      source={item.image}
+                      className="w-16 h-16 border rounded-md border-primary-color"
+                    />
+                    <CustomText className="mt-1 text-sm">
+                      {item.label}
+                    </CustomText>
+                  </TouchableOpacity>
+                ))}
               </View>
-            ))}
-          </View>
 
-          {/* Vendor Grid */}
-          <ScrollView contentContainerStyle={{ padding: 16 }}>
-            <View className="flex-row flex-wrap justify-between">
-              {vendors.map((vendor, index) => (
-                <View key={index} className="w-[48%] mb-4">
-                  <View className="bg-gray-200 rounded-md h-28" />
-                  <CustomText className="mt-2 font-semibold">
-                    {vendor.name}
-                  </CustomText>
-                  <CustomText className="text-green-500">
-                    {vendor.location}
-                  </CustomText>
-                </View>
-              ))}
-            </View>
-          </ScrollView>
+              {/* Vendor Grid */}
+
+              <View className="flex-row flex-wrap justify-between p-6">
+                {vendors.map((vendor, index) => (
+                  <TouchableOpacity key={index} className="w-[48%] mb-4">
+                    <View className="bg-[#D9D9D9] rounded-md h-28" />
+                    <CustomText className="mt-2 font-semibold">
+                      {vendor.name}
+                    </CustomText>
+                    <CustomText className="text-tertiary-color">
+                      {vendor.location}
+                    </CustomText>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </ScrollView>
+          </View>
         </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      </View>
+    </>
   );
 };
 

@@ -1,24 +1,35 @@
 import {
   View,
-  Text,
-  TextInput,
   TouchableOpacity,
   Pressable,
   Image,
   Alert,
+  ScrollView,
 } from "react-native";
-import { useState } from "react";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useState, useCallback } from "react";
 import GoogleLogo from "../../../assets/icons/google.png";
 import FacebookLogo from "../../../assets/icons/facebook.png";
 import { API_URL } from "@env";
 import axios from "axios";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import {
+  CommonActions,
+  useFocusEffect,
+  useNavigation,
+} from "@react-navigation/native";
 import CustomText from "../../../components/CustomText";
-import { getTextStyle } from "../../../utils/getTextStyle";
+import { colors } from "../../../styles/colors";
+import Button from "../../../components/Button";
+import InputField from "../../../components/InputField";
+import { StatusBar } from "expo-status-bar";
 
 const RegisterScreen = ({ navigation }) => {
+  useFocusEffect(
+    useCallback(() => {
+      return () => {};
+    }, [])
+  );
+
   const customNavigation = useNavigation();
 
   const [firstName, setFirstName] = useState("");
@@ -69,153 +80,125 @@ const RegisterScreen = ({ navigation }) => {
     }
   };
   return (
-    <SafeAreaProvider>
-      <SafeAreaView className="flex-1 px-6 bg-white">
-        <View className="justify-between flex-1">
+    <>
+      <StatusBar style="dark" />
+      <View className="flex-1 px-6 py-10 bg-white">
+        <ScrollView contentContainerStyle={{ justifyContent: "space-between" }}>
           {/* Top content */}
-          <View>
-            <View className="mb-20" />
-            <View className="absolute z-10 top-5">
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                className="bg-[#F5F5F5] rounded-full p-1.5"
-              >
-                <ChevronLeftIcon size={20} strokeWidth={3} color="#9E9E9E" />
-              </TouchableOpacity>
-            </View>
-            <View className="mb-8">
-              <CustomText className="text-3xl font-bold">
-                Create your account
-              </CustomText>
-              <CustomText style={{ color: "#F16B44" }}>
-                Be part of something fresh.
-              </CustomText>
-            </View>
+          <View className="justify-between">
+            <View>
+              <View className="mb-20" />
+              <View className="absolute z-10 top-5">
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  className="bg-light-grey rounded-full p-1.5"
+                >
+                  <ChevronLeftIcon
+                    size={20}
+                    strokeWidth={3}
+                    color={colors.darkGrey}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View className="mb-8">
+                <CustomText className="text-3xl font-bold">
+                  Create your account
+                </CustomText>
+                <CustomText className="text-primary-color">
+                  Be part of something fresh.
+                </CustomText>
+              </View>
 
-            <View className="flex-row gap-3">
-              <TextInput
-                style={getTextStyle({
-                  backgroundColor: "#EEEEEE",
-                  borderColor: "#fff",
-                })}
-                placeholder="First Name"
-                className="flex-1 px-4 py-3 mb-6 text-base border border-gray-300 rounded-md"
-                value={firstName}
-                onChangeText={setFirstName}
+              <View className="flex-row gap-3">
+                <InputField
+                  className="flex-1 mb-6"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChangeText={setFirstName}
+                />
+                <InputField
+                  className="flex-1 mb-6"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChangeText={setLastName}
+                />
+              </View>
+
+              <InputField
+                className="mb-6"
+                placeholder="Email Address"
+                keyboardType="email-address"
+                value={email}
+                onChangeText={setEmail}
               />
-              <TextInput
-                style={getTextStyle({
-                  backgroundColor: "#EEEEEE",
-                  borderColor: "#fff",
-                })}
-                placeholder="Last Name"
-                className="flex-1 px-4 py-3 mb-6 text-base border border-gray-300 rounded-md"
-                value={lastName}
-                onChangeText={setLastName}
+
+              <InputField
+                className="mb-6"
+                placeholder="Password"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
               />
-            </View>
 
-            <TextInput
-              style={getTextStyle({
-                backgroundColor: "#EEEEEE",
-                borderColor: "#fff",
-              })}
-              className="px-4 py-3 mb-6 text-base border border-gray-300 rounded-md"
-              placeholder="Email Address"
-              value={email}
-              onChangeText={setEmail}
-            />
+              <InputField
+                className="mb-6"
+                placeholder="Confirm Password"
+                secureTextEntry={true}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
 
-            <TextInput
-              style={getTextStyle({
-                backgroundColor: "#EEEEEE",
-                borderColor: "#fff",
-              })}
-              className="px-4 py-3 mb-5 text-base border border-gray-300 rounded-md"
-              placeholder="Password"
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-            />
+              {registerMessage && (
+                <CustomText
+                  className={`${
+                    registerMessage.type === "success"
+                      ? "text-tertiary-color"
+                      : "text-red-errors"
+                  } mb-5`}
+                >
+                  {registerMessage.message}
+                </CustomText>
+              )}
 
-            <TextInput
-              style={getTextStyle({
-                backgroundColor: "#EEEEEE",
-                borderColor: "#fff",
-              })}
-              className="px-4 py-3 mb-5 text-base border border-gray-300 rounded-md"
-              placeholder="Confirm Password"
-              secureTextEntry
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-            />
-
-            {registerMessage && (
-              <CustomText
-                className={`${
-                  registerMessage.type === "success"
-                    ? "text-green-500"
-                    : "text-red-500 "
-                } mb-5`}
-              >
-                {registerMessage.message}
-              </CustomText>
-            )}
-
-            <TouchableOpacity
-              style={{ backgroundColor: "#FF5733" }}
-              className="py-4 mb-8 rounded-md"
-              onPress={handleRegister}
-            >
-              <CustomText className="text-base font-bold text-center text-white">
+              <Button buttonClassName="mb-8" onPress={handleRegister}>
                 Register
-              </CustomText>
-            </TouchableOpacity>
+              </Button>
 
-            <View className="flex-row items-center mb-8">
-              <View className="flex-1 h-px bg-gray-300" />
-              <CustomText className="mx-4 text-gray-500">
-                Or register with
-              </CustomText>
-              <View className="flex-1 h-px bg-gray-300" />
+              <View className="flex-row items-center mb-8">
+                <View className="flex-1 h-0.5 bg-light-grey" />
+                <CustomText className="mx-4 text-dark-grey">
+                  Or register with
+                </CustomText>
+                <View className="flex-1 h-0.5 bg-light-grey" />
+              </View>
+
+              <View className="mb-6">
+                <Button variant="socials">Continue with Google</Button>
+                <Image
+                  source={GoogleLogo}
+                  className="absolute w-5 h-5 mr-24 transform -translate-y-1/2 top-1/2 left-4"
+                />
+              </View>
+
+              <View className="mb-6">
+                <Button variant="socials">Continue with Facebook</Button>
+                <Image
+                  source={FacebookLogo}
+                  className="absolute w-6 h-6 transform -translate-y-1/2 top-1/2 left-4"
+                />
+              </View>
             </View>
 
-            <TouchableOpacity
-              style={{ borderColor: "#F16B44" }}
-              className="flex-row px-4 py-3 mb-6 border border-gray-300 rounded-md"
-            >
-              <Image
-                source={GoogleLogo}
-                style={{ width: 20, height: 20, marginRight: 90 }}
-              />
-              <CustomText style={{ color: "#FF5733" }} className="text-base">
-                Continue with Google
-              </CustomText>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{ borderColor: "#F16B44" }}
-              className="flex-row px-4 py-3 border border-gray-300 rounded-md"
-            >
-              <Image
-                source={FacebookLogo}
-                style={{ width: 20, height: 20, marginRight: 83 }}
-              />
-              <CustomText style={{ color: "#FF5733" }} className="text-base">
-                Continue with Facebook
-              </CustomText>
-            </TouchableOpacity>
+            <View className="flex-row justify-center mt-3 mb-4">
+              <CustomText>Already have an account? </CustomText>
+              <Pressable onPress={goToLogin} className="mb-2">
+                <CustomText className="text-primary-color">Login</CustomText>
+              </Pressable>
+            </View>
           </View>
-
-          <View className="flex-row justify-center mt-10 mb-4">
-            <CustomText>Already have an account? </CustomText>
-            <Pressable onPress={goToLogin} className="mb-2">
-              <CustomText style={{ color: "#FF5733" }}>Login</CustomText>
-            </Pressable>
-          </View>
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+        </ScrollView>
+      </View>
+    </>
   );
 };
 
