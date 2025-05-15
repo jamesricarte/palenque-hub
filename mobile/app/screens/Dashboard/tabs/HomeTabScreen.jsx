@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   TouchableOpacity,
   TextInput,
   Image,
@@ -10,6 +9,8 @@ import {
 import { BellIcon, ShoppingBagIcon } from "react-native-heroicons/outline";
 
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { getTextStyle } from "../../../utils/getTextStyle";
+import CustomText from "../../../components/CustomText";
 
 const categories = [
   { label: "Meat", image: require("../../../assets/categories/meat.jpg") },
@@ -40,6 +41,7 @@ const HomeTabScreen = () => {
           {/* Header */}
           <View className="flex-row items-center p-4 bg-[#F16B44] rounded-b-3xl">
             <TextInput
+              style={getTextStyle()}
               placeholder="Search for products"
               className="flex-1 px-4 py-2 mr-3 bg-white rounded-lg"
             />
@@ -64,7 +66,7 @@ const HomeTabScreen = () => {
             {categories.map((item, index) => (
               <View key={index} className="items-center">
                 <Image source={item.image} className="rounded-full w-14 h-14" />
-                <Text className="mt-1 text-sm">{item.label}</Text>
+                <CustomText className="mt-1 text-sm">{item.label}</CustomText>
               </View>
             ))}
           </View>
@@ -75,8 +77,12 @@ const HomeTabScreen = () => {
               {vendors.map((vendor, index) => (
                 <View key={index} className="w-[48%] mb-4">
                   <View className="bg-gray-200 rounded-md h-28" />
-                  <Text className="mt-2 font-semibold">{vendor.name}</Text>
-                  <Text className="text-green-500">{vendor.location}</Text>
+                  <CustomText className="mt-2 font-semibold">
+                    {vendor.name}
+                  </CustomText>
+                  <CustomText className="text-green-500">
+                    {vendor.location}
+                  </CustomText>
                 </View>
               ))}
             </View>
