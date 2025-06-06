@@ -15,8 +15,11 @@ import { colors } from "../../../styles/colors";
 import Button from "../../../components/Button";
 import InputField from "../../../components/InputField";
 import { StatusBar } from "expo-status-bar";
+import { useAuth } from "../../../contexts/authContext";
 
 const LoginScreen = ({ navigation }) => {
+  const { login } = useAuth();
+
   useFocusEffect(
     useCallback(() => {
       return () => {};

@@ -3,6 +3,7 @@ import MainStackNavigator from "./navigation/MainStackNavigator";
 import { useFonts } from "expo-font";
 import { useCallback } from "react";
 import * as SplashScreen from "expo-splash-screen";
+import { AuthProvider } from "./contexts/authContext";
 
 import "../global.css";
 
@@ -26,8 +27,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer onReady={onLayoutRootView}>
-      <MainStackNavigator />
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer onReady={onLayoutRootView}>
+        <MainStackNavigator />
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
